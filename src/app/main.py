@@ -8,6 +8,8 @@ app = FastAPI(title="Minimal Python API")
 # Track application start time for the health check
 START_TIME = datetime.now(UTC)
 
+APP_VERSION = "0.1.0"
+
 @app.get("/")
 def read_root():
     """Basic root landing endpoint."""
@@ -35,3 +37,22 @@ def health_check():
             "uptime_seconds": round(uptime.total_seconds(), 2)
         }
     )
+
+@app.get("/api/version")
+def get_version():
+    """Endpoint to return the current version of the API."""
+    return {
+        "version": APP_VERSION,
+        "status": "success"
+    }
+
+@app.get("/api/metrics")
+def get_metrics():
+    """Endpoint to return API metrics."""
+    return {
+        "status": "success",
+        "metrics": {
+            "requests": 0,
+            "errors": 0
+        }
+    }
