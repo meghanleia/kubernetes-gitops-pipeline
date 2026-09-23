@@ -30,11 +30,17 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # ===========================
 FROM base AS production
 
-ENV PATH="/app/.venv/bin:$PATH"
+ENV PATH="/app/.venv/bin:$PATH" \
+    UV_CACHE_DIR="/tmp/uv-cache"
 
-COPY --from=builder /app/.venv /app/.venv
+RUN groupadd --system appgroup && \
+    useradd --system --no-create-home --gid appgroup appuser
 
-COPY . .
+COPY --from=builder --chown=appuser:appgroup /app/.venv /app/.venv
+
+COPY --chown=appuser:appgroup . .
+
+USER appuser
 
 EXPOSE 8000
 
