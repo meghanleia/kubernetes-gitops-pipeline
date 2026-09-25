@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2026-09-25T20:53:01Z"
+  labels:
+    app: fastapi-app
+  name: fastapi-app
+  namespace: default
+  resourceVersion: "3463"
+  uid: 7effa6a1-e580-4ea6-85fc-088c6768f68d
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.103.146.172
+  clusterIPs:
+  - 10.103.146.172
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 30602
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: fastapi-app
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer: {}
