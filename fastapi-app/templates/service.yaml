@@ -17,12 +17,12 @@ spec:
   ipFamilyPolicy: SingleStack
   ports:
   - nodePort: 30602
-    port: 8000
+    port: {{ .Values.service.port }}
     protocol: TCP
     targetPort: 8000
   selector:
     app: fastapi-app
   sessionAffinity: None
-  type: LoadBalancer
+  type: {{ .Values.service.type }}
 status:
   loadBalancer: {}
