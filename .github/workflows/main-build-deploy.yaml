@@ -1,0 +1,23 @@
+name: Main Build and Deploy
+
+on: workflow_dispatch
+
+jobs:
+  release-build:
+    runs-on: ubuntu-latest
+
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v6
+
+    - name: Set up uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        python-version-file: "pyproject.toml"
+
+    - name: Install dependencies
+      run: uv sync --frozen
+
+    - name: Test with pytest
+      run: uv run pytest
