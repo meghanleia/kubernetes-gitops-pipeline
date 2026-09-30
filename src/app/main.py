@@ -26,13 +26,6 @@ HTTP_REQUEST_DURATION = Histogram(
     buckets=(0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0)
 )
 
-HEALTH_FILE = "/tmp/healthy"
-
-@app.on_event("startup")
-def create_health_file():
-    with open(HEALTH_FILE, "w") as f:
-        f.write("healthy")
-
 @app.middleware("http")
 async def monitor_requests(request: Request, call_next):
 
@@ -73,9 +66,6 @@ def health_check():
     Health check endpoint for monitoring tools or Kubernetes probes.
     Returns 200 OK if the application server is up and responsive.
     """
-    if not os.path.exists(HEALTH_FILE):
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Service Unhealthy")
-    
     uptime = datetime.now(UTC) - START_TIME
     REQUEST_COUNT.labels(method="GET", endpoint="/health").inc()
     
