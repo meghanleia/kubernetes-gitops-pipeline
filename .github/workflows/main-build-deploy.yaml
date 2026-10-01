@@ -1,6 +1,12 @@
 name: Main Build and Deploy
 
-on: workflow_dispatch
+on: 
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/app/**'
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
@@ -60,9 +66,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha
       
-      - name: Generate artifact attestation
-        uses: actions/attest@v4.2.2
-        with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
-          subject-digest: ${{ steps.push-image.outputs.digest }}
-          push-to-registry: true
+      # - name: Generate artifact attestation
+      #   uses: actions/attest@v4.2.2
+      #   with:
+      #     subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+      #     subject-digest: ${{ steps.push-image.outputs.digest }}
+      #     push-to-registry: true
