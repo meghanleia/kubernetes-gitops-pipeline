@@ -13,12 +13,14 @@ START_TIME = datetime.now(UTC)
 
 APP_VERSION = "0.1.0"
 
+#Track for Prometheus metrics
 REQUEST_COUNT = Counter(
     "http_requests_total", 
     "Total number of HTTP requests received for endpoint", 
     ["method", "endpoint"]
 )
 
+#Track for Prometheus metrics
 HTTP_REQUEST_DURATION = Histogram(
     "http_request_duration_seconds",
     "HTTP request latency in seconds",
