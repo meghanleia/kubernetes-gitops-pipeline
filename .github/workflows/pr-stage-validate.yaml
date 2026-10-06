@@ -22,13 +22,12 @@ jobs:
           cache-dependency-glob: "app/uv.lock"
 
       - name: Install dependencies
-        working-directory: app
-        run: uv sync --frozen
+        run: uv sync --project app --frozen
 
       - name: Lint with flake8
         working-directory: app
         run: |
-          uv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          uv run --project app flake8 app/src app/tests --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
           
       - name: Test with pytest
-        run: uv run pytest
+        run: uv run --project app pytest app/tests
