@@ -26,7 +26,6 @@ jobs:
         run: uv sync --project app --frozen
 
       - name: Lint with flake8
-        working-directory: app
         run: |
           uv run --project app flake8 app/src app/tests --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
           
