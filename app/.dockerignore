@@ -9,4 +9,3 @@ ENV
 .github/
 .gitignore
 .uv
-k8s/
