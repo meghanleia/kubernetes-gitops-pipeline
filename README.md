@@ -111,35 +111,55 @@ Once reconciliation completes, the `fastapi-app` Pod should be running and ready
 
 ### 5. Access the FastAPI application
 
-Get a local URL through Minikube:
+Expose the application through Minikube:
 
 ```bash
 minikube service fastapi-app --url
 ```
 
-Open the returned URL in a browser or test it with `curl`:
+Minikube will print a local URL similar to:
+
+```text
+http://127.0.0.1:57123
+```
+
+> **macOS with the Docker driver:** Minikube creates a network tunnel to the service and must keep this terminal process running. Leave the terminal open while accessing the application and use a second terminal for the commands below.
+
+In a second terminal, set the returned URL as an environment variable:
 
 ```bash
-curl "$(minikube service fastapi-app --url)/"
+export APP_URL="http://127.0.0.1:57123"
+```
+
+Replace the example URL with the URL returned by Minikube.
+
+Test the application:
+
+```bash
+curl "$APP_URL/"
 ```
 
 Health check:
 
 ```bash
-curl "$(minikube service fastapi-app --url)/health"
+curl "$APP_URL/health"
 ```
 
 Application version:
 
 ```bash
-curl "$(minikube service fastapi-app --url)/api/version"
+curl "$APP_URL/api/version"
 ```
 
 Prometheus-format application metrics:
 
 ```bash
-curl "$(minikube service fastapi-app --url)/api/metrics"
+curl "$APP_URL/api/metrics"
 ```
+
+The same endpoints can also be opened directly in a browser.
+
+When finished, return to the terminal running the Minikube service tunnel and press `Ctrl-C` to close it.
 
 ## GitOps Workflow
 
