@@ -6,23 +6,10 @@ metadata:
   name: fastapi-app
   namespace: default
 spec:
-  allocateLoadBalancerNodePorts: true
-  clusterIP: 10.103.146.172
-  clusterIPs:
-  - 10.103.146.172
-  externalTrafficPolicy: Cluster
-  internalTrafficPolicy: Cluster
-  ipFamilies:
-  - IPv4
-  ipFamilyPolicy: SingleStack
-  ports:
-  - nodePort: 30602
-    port: {{ .Values.service.port }}
-    protocol: TCP
-    targetPort: 8000
+  type: {{ .Values.service.type }}
   selector:
     app: fastapi-app
-  sessionAffinity: None
-  type: {{ .Values.service.type }}
-status:
-  loadBalancer: {}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 8000
+      protocol: TCP
