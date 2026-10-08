@@ -35,6 +35,9 @@ jobs:
       - name: Install dependencies
         run: uv sync --project app --frozen
       
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4.4.0
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
       
@@ -59,6 +62,7 @@ jobs:
         with:
           context: .
           file: ./app/Dockerfile
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.metadata-tags.outputs.tags }}
           labels: ${{ steps.metadata-tags.outputs.labels }}
