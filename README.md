@@ -6,20 +6,20 @@ A small platform engineering project that deploys a FastAPI application to Kuber
 
 My platform engineering work has included Kubernetes, Helm, GitHub Actions, containerized applications, and production deployment workflows. I built this project to bring those pieces together in a small environment where I could work through the full delivery lifecycle myself.
 
-The main goal was to gain hands-on experience with **GitOps and Argo CD**: defining application state in Git, allowing Argo CD to reconcile that state into Kubernetes, and separating CI responsibilities from deployment.
+The main goal was to gain hands-on experience with **GitOps and Argo CD**: defining the application state in Git, allowing Argo CD to reconcile that state into Kubernetes, and separating CI responsibilities from deployment.
 
 The project currently includes:
 
 - A Python FastAPI service with health, version, and Prometheus metrics endpoints
 - A multi-stage Docker build using `uv`
 - A Helm chart with resource limits and Kubernetes readiness/liveness probes
-- GitHub Actions for application testing, linting, Helm validation, container builds, and publishing to GHCR
+- GitHub Actions for application testing, linting, Helm and Docker validation, container builds, and publishing to GHCR
 - A local Kubernetes cluster running in Minikube
 - Argo CD using an app-of-apps pattern to manage the application deployment
 
 ## Architecture
 
-<!-- Add architecture diagram here -->
+![Architectural diagram of GitOps pipeline](kubernetes-gitops-pipeline.png)
 
 `Application code → GitHub Actions → Container image → Helm → Argo CD → Kubernetes`
 
