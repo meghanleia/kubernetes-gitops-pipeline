@@ -1,4 +1,4 @@
-name: Main Build and Deploy
+name: PR Merge Build and Push
 
 on: 
   push:
