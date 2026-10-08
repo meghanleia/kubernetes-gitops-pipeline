@@ -123,9 +123,9 @@ Minikube will print a local URL similar to:
 http://127.0.0.1:57123
 ```
 
-> **macOS with the Docker driver:** Minikube creates a network tunnel to the service and must keep this terminal process running. Leave the terminal open while accessing the application and use a second terminal for the commands below.
+> **Note:** Depending on your operating system and Minikube driver, `minikube service fastapi-app --url` may keep this terminal process running while it maintains a network tunnel. This is expected on macOS with the Docker driver. If the command remains active, leave the terminal open and use a second terminal for the commands below.
 
-In a second terminal, set the returned URL as an environment variable:
+Set the returned URL as an environment variable:
 
 ```bash
 export APP_URL="http://127.0.0.1:57123"
