@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    # 1. Reference the remote helm repository
+    repoURL: 'https://github.io'
+    chart: kube-prometheus-stack
+    targetRevision: 69.2.1 # Pin to a specific version for stability
+    
+    helm:
+      # 2. Reference your custom values file stored in your GitHub repo
+      valueFiles:
+        - '$my-git-repo/helm-charts/kube-prometheus-stack/values.yaml'
+  
+  # 3. This section links your external GitHub values repo to the Helm source
+  sources:
+    - repoURL: 'https://github.com/meghanleia/kubernetes-gitops-pipeline'
+      targetRevision: HEAD
+      ref: my-git-repo
+
+  destination:
+    server: 'https://default.svc'
+    namespace: monitoring
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      # ServerSideApply prevents CRD size configuration errors
+      - ServerSideApply=true 
+      # Replace allows large CRDs to be updated in place safely
+      - Replace=true
