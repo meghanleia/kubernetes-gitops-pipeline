@@ -8,13 +8,11 @@ metadata:
 spec:
   project: default
   source:
-    # 1. Reference the remote helm repository
     repoURL: 'https://github.io'
     chart: kube-prometheus-stack
-    targetRevision: 69.2.1 # Pin to a specific version for stability
+    targetRevision: 69.2.1
     
     helm:
-      # 2. Reference your custom values file stored in your GitHub repo
       valueFiles:
         - '$my-git-repo/helm-charts/kube-prometheus-stack/values.yaml'
   
@@ -34,7 +32,5 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      # ServerSideApply prevents CRD size configuration errors
       - ServerSideApply=true 
-      # Replace allows large CRDs to be updated in place safely
       - Replace=true

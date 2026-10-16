@@ -10,6 +10,7 @@ spec:
   selector:
     app: fastapi-app
   ports:
-    - port: {{ .Values.service.port }}
+    - name: http-metrics
+      port: {{ .Values.service.port }}
       targetPort: 8000
       protocol: TCP

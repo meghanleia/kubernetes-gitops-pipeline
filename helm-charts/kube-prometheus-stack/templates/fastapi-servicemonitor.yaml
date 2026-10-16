@@ -1,0 +1,18 @@
+apiVersion: ://coreos.com
+kind: ServiceMonitor
+metadata:
+  name: fastapi-monitor
+  namespace: default
+  labels:
+    release: prometheus-stack 
+spec:
+  namespaceSelector:
+    matchNames:
+      - default
+  selector:
+    matchLabels:
+      app: fastapi-app 
+  endpoints:
+    - port: http-metrics
+      path: /api/metrics
+      interval: 15s
