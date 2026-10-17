@@ -1,0 +1,11 @@
+apiVersion: v2
+name: local-monitoring-stack
+description: Local wrapper for kube-prometheus-stack
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+
+dependencies:
+  - name: kube-prometheus-stack
+    version: 69.2.1
+    repository: https://github.io
