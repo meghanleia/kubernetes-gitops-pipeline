@@ -25,7 +25,7 @@ jobs:
 
       - name: Lint with flake8
         run: |
-          uv run --project app flake8 app/src app/tests --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+          uv run --project app flake8 app/src app/tests --count --max-complexity=10 --max-line-length=127 --statistics
           
       - name: Test with pytest
         run: uv run --project app pytest app/tests
