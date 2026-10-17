@@ -10,7 +10,7 @@ spec:
     targetRevision: HEAD
     path: helm-charts/kube-prometheus-stack
   destination:
-    server: 'https://default.svc'
+    server: 'https://kubernetes.default.svc'
     namespace: monitoring
 
   syncPolicy:
