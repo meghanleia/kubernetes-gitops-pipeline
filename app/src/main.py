@@ -10,7 +10,7 @@ app = FastAPI(title="Minimal Python API")
 # Track application start time for the health check
 START_TIME = datetime.now(UTC)
 
-APP_VERSION = "0.1.0"
+APP_VERSION = "1.0.0"
 
 # Track for Prometheus metrics
 REQUEST_COUNT = Counter(
