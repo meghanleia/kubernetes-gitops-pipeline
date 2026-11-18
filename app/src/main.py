@@ -27,38 +27,38 @@ HTTP_REQUEST_DURATION = Histogram(
     buckets=(0.01, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0)
 )
 
+METRICS_PATH = "/api/metrics"
+UNMATCHED_ENDPOINT = "unmatched"
+
 
 @app.middleware("http")
 async def monitor_requests(request: Request, call_next):
 
-    if request.url.path == "/metrics":
+    if request.url.path == METRICS_PATH:
         return await call_next(request)
 
     start_time = time.perf_counter()
-
-    response = await call_next(request)
-
-    duration = time.perf_counter() - start_time
-
-    HTTP_REQUEST_DURATION.labels(
-        method=request.method,
-        endpoint=request.url.path
-    ).observe(duration)
-
-    return response
+    try:
+        return await call_next(request)
+    finally:
+        duration = time.perf_counter() - start_time
+        route = request.scope.get("route")
+        endpoint = getattr(route, "path", None) or UNMATCHED_ENDPOINT
+        labels = {"method": request.method, "endpoint": endpoint}
+ 
+        REQUEST_COUNT.labels(**labels).inc()
+        HTTP_REQUEST_DURATION.labels(**labels).observe(duration)
 
 
 @app.get("/")
 def read_root():
     """Basic root landing endpoint."""
-    REQUEST_COUNT.labels(method="GET", endpoint="/").inc()
     return {"message": "Welcome to your minimal Python API!"}
 
 
 @app.get("/api/greet")
 def greet_user(name: str = "Guest"):
     """A basic functional endpoint that accepts a query parameter."""
-    REQUEST_COUNT.labels(method="GET", endpoint="/api/greet").inc()
     return {
         "message": f"Hello, {name}!",
         "status": "success"
@@ -72,7 +72,6 @@ def health_check():
     Returns 200 OK if the application server is up and responsive.
     """
     uptime = datetime.now(UTC) - START_TIME
-    REQUEST_COUNT.labels(method="GET", endpoint="/health").inc()
 
     return JSONResponse(
         content={
@@ -86,14 +85,13 @@ def health_check():
 @app.get("/api/version")
 def get_version():
     """Endpoint to return the current version of the API."""
-    REQUEST_COUNT.labels(method="GET", endpoint="/api/version").inc()
     return {
         "version": APP_VERSION,
         "status": "success"
     }
 
 
-@app.get("/api/metrics")
+@app.get(METRICS_PATH)
 def get_metrics():
     """Endpoint to return API metrics."""
     return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
