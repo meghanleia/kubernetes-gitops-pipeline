@@ -45,7 +45,7 @@ async def monitor_requests(request: Request, call_next):
         route = request.scope.get("route")
         endpoint = getattr(route, "path", None) or UNMATCHED_ENDPOINT
         labels = {"method": request.method, "endpoint": endpoint}
- 
+
         REQUEST_COUNT.labels(**labels).inc()
         HTTP_REQUEST_DURATION.labels(**labels).observe(duration)
 

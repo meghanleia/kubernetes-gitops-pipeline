@@ -35,6 +35,7 @@ def recorded_endpoints():
         for _, label_pairs in request_metrics_snapshot()
     }
 
+
 def test_read_root():
     response = client.get("/")
     assert response.status_code == 200
