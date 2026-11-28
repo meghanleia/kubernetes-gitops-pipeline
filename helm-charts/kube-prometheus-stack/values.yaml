@@ -4695,8 +4695,8 @@ kube-prometheus-stack:
       ## Namespaces to be selected for ServiceMonitor discovery.
       ##
       serviceMonitorNamespaceSelector:
-        matchNames:
-          - default
+        matchLabels:
+          kubernetes.io/metadata.name: default
       ## Example which selects ServiceMonitors in namespaces with label "prometheus" set to "somelabel"
       # serviceMonitorNamespaceSelector:
       #   matchLabels:
